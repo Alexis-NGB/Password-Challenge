@@ -88,51 +88,78 @@ var upperCasedCharacters = [
   'Z'
 ];
 
+
+
 // Function to prompt user for password options
-  let confirmLowerCased = false;
-  let confirmUpperCased = false;
-  let confirmSpecial = false;
-  let confirmNumeric = false;
-  let passwordLenght = 0
+let confirmLowerCased = false;
+let confirmUpperCased = false;
+let confirmSpecial = false;
+let confirmNumeric = false;
+let passwordLenght = 0
+let password = ""
 
-while (confirmLowCase === false && confirmUpperCase === false && confirmSpecial === false && confirmNumber === false) {
-  confirmLowerCased = confirm("Would you like your password to have lower cased letters?")
-  confirmUpperCased = confirm("Would you like your password to have upper cased letters?")
-  confirmSpecial = confirm("Would you like your password to have special characters?")
-  confirmNumeric = confirm("Would you like your password to have numbers?")
-}
-passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64")
-if (10 < passwordLenght < 64 ) {
-  
-} else {
-  
-}
-
-console.log (confirmLowCase)
-
-// Function for getting a random element from an array
-function getRandom(arr) {
-
-}
-
-// Function to generate password with user input
 function generatePassword() {
+  confirmLowerCased = confirm("Would you like your password to have lower cased letters?");
+  confirmUpperCased = confirm("Would you like your password to have upper cased letters?");
+  confirmSpecial = confirm("Would you like your password to have special characters?");
+  confirmNumeric = confirm("Would you like your password to have numbers?");
+  passwordLength = prompt("How many characters would you like your password to have? Inster a number between 10 and 64");
 
+  if (!confirmLowerCased && !confirmUpperCased && !confirmSpecial && !confirmNumeric) {
+    alert("You must choose at least one type of character! Try again!");
+    return generatePassword();
+  }
+  if (passwordLength < 10 || passwordLength > 64) {
+    alert("You must choose a length between 10 and 64! Try again!");
+    return generatePassword();
+  }
 }
 
-// Get references to the #generate element
-var generateBtn = document.querySelector('#generate');
+  /*while (confirmLowerCased === false && confirmUpperCased === false && confirmSpecial === false && confirmNumeric === false) {
+    confirmLowerCased = confirm("Would you like your password to have lower cased letters?")
+    confirmUpperCased = confirm("Would you like your password to have upper cased letters?")
+    confirmSpecial = confirm("Would you like your password to have special characters?")
+    confirmNumeric = confirm("Would you like your password to have numbers?")
+  }
+  passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64")
+  if (10 < passwordLenght < 64) {
 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector('#password');
+  } else { }*/
 
-  passwordText.value = password;
-}
 
-// Add event listener to generate button
-generateBtn.addEventListener('click', writePassword);
+
+  // Function for getting a random element from an array
+  function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * (arr).length)];
+
+  }
+  let randomLowerCased = getRandomElement(lowerCasedCharacters)
+  console.log(randomLowerCased)
+
+
+
+  // Function to generate password with user input
+  function generatePassword() {
+
+  }
+
+
+
+  // Get references to the #generate element
+  var generateBtn = document.querySelector('#generate');
+
+
+
+  // Write password to the #password input
+  function writePassword() {
+    var password = generatePassword();
+    var passwordText = document.querySelector('#password');
+
+    passwordText.value = password;
+  }
+
+  // Add event listener to generate button
+  generateBtn.addEventListener('click', writePassword);
 
 /* pseudo código: le damos al usuario a elegir qué tipo de caracteres quiere que aparezca 
 en su contraseña mediante una serie de "confirm()" Al menos una categoría tiene que ser seleccionada. 
