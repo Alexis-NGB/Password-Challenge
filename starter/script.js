@@ -1,5 +1,5 @@
 // Array of special characters to be included in password
-var specialCharacters = [
+let specialCharacters = [
   '@',
   '%',
   '+',
@@ -26,10 +26,10 @@ var specialCharacters = [
 ];
 
 // Array of numeric characters to be included in password
-var numericCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+let numericCharacters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
 // Array of lowercase characters to be included in password
-var lowerCasedCharacters = [
+let lowerCasedCharacters = [
   'a',
   'b',
   'c',
@@ -59,7 +59,7 @@ var lowerCasedCharacters = [
 ];
 
 // Array of uppercase characters to be included in password
-var upperCasedCharacters = [
+let upperCasedCharacters = [
   'A',
   'B',
   'C',
@@ -98,68 +98,82 @@ let confirmNumeric = false;
 let passwordLenght = 0
 let password = ""
 
-function generatePassword() {
+function chooseParameters() {
   confirmLowerCased = confirm("Would you like your password to have lower cased letters?");
   confirmUpperCased = confirm("Would you like your password to have upper cased letters?");
   confirmSpecial = confirm("Would you like your password to have special characters?");
   confirmNumeric = confirm("Would you like your password to have numbers?");
-  passwordLength = prompt("How many characters would you like your password to have? Inster a number between 10 and 64");
+  passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64");
 
   if (!confirmLowerCased && !confirmUpperCased && !confirmSpecial && !confirmNumeric) {
     alert("You must choose at least one type of character! Try again!");
     return generatePassword();
   }
-  if (passwordLength < 10 || passwordLength > 64) {
+  if (passwordLenght < 10 || passwordLenght > 64) {
     alert("You must choose a length between 10 and 64! Try again!");
     return generatePassword();
   }
 }
 
-  /*while (confirmLowerCased === false && confirmUpperCased === false && confirmSpecial === false && confirmNumeric === false) {
-    confirmLowerCased = confirm("Would you like your password to have lower cased letters?")
-    confirmUpperCased = confirm("Would you like your password to have upper cased letters?")
-    confirmSpecial = confirm("Would you like your password to have special characters?")
-    confirmNumeric = confirm("Would you like your password to have numbers?")
+/* while (confirmLowerCased === false && confirmUpperCased === false && confirmSpecial === false && confirmNumeric === false) {
+  confirmLowerCased = confirm("Would you like your password to have lower cased letters?")
+  confirmUpperCased = confirm("Would you like your password to have upper cased letters?")
+  confirmSpecial = confirm("Would you like your password to have special characters?")
+  confirmNumeric = confirm("Would you like your password to have numbers?")
+}
+passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64")
+if (10 < passwordLenght < 64) {
+
+} else { } */
+
+
+// Function for getting a random element from an array
+function getRandomElement(arr) {
+  return arr[Math.floor(Math.random() * (arr).length)];
+
+}
+/* let randomLowerCased = getRandomElement(lowerCasedCharacters)
+ console.log(randomLowerCased) */
+
+
+// Function to generate password with user input
+let selectedChars = []
+function generatePassword(passwordLenght) {
+  chooseParameters()
+  if (confirmSpecial = true) {
+    selectedChars.push(specialCharacters)
+  } if (confirmNumeric = true) {
+    selectedChars.push(numericCharacters)
+  } if (confirmLowerCased = true) {
+    selectedChars.push(lowerCasedCharacters)
+  } if (confirmUpperCased = true) {
+    selectedChars.push(upperCasedCharacters)
   }
-  passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64")
-  if (10 < passwordLenght < 64) {
-
-  } else { }*/
-
-
-
-  // Function for getting a random element from an array
-  function getRandomElement(arr) {
-    return arr[Math.floor(Math.random() * (arr).length)];
-
+  for (let i = 0; i < passwordLenght; i++) {
+    password += getRandomElement(selectedChars);
   }
-  let randomLowerCased = getRandomElement(lowerCasedCharacters)
-  console.log(randomLowerCased)
+  return password;
+}
+generatePassword()
+
+console.log(password)
+
+
+// Get references to the #generate element
+let generateBtn = document.querySelector('#generate');
 
 
 
-  // Function to generate password with user input
-  function generatePassword() {
+// Write password to the #password input
+function writePassword() {
+  let password = generatePassword();
+  let passwordText = document.querySelector('#password');
 
-  }
+  passwordText.value = password;
+}
 
-
-
-  // Get references to the #generate element
-  var generateBtn = document.querySelector('#generate');
-
-
-
-  // Write password to the #password input
-  function writePassword() {
-    var password = generatePassword();
-    var passwordText = document.querySelector('#password');
-
-    passwordText.value = password;
-  }
-
-  // Add event listener to generate button
-  generateBtn.addEventListener('click', writePassword);
+// Add event listener to generate button
+generateBtn.addEventListener('click', writePassword);
 
 /* pseudo código: le damos al usuario a elegir qué tipo de caracteres quiere que aparezca 
 en su contraseña mediante una serie de "confirm()" Al menos una categoría tiene que ser seleccionada. 
