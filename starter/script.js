@@ -88,76 +88,68 @@ let upperCasedCharacters = [
   'Z'
 ];
 
-
-
-// Function to prompt user for password options
-let confirmLowerCased = false;
-let confirmUpperCased = false;
-let confirmSpecial = false;
-let confirmNumeric = false;
-let passwordLenght = 0
-let password = ""
-
+// Function to prompt user for password options  
 function chooseParameters() {
-  confirmLowerCased = confirm("Would you like your password to have lower cased letters?");
-  confirmUpperCased = confirm("Would you like your password to have upper cased letters?");
-  confirmSpecial = confirm("Would you like your password to have special characters?");
-  confirmNumeric = confirm("Would you like your password to have numbers?");
-  passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64");
+  let selectedChars = []
+  let validSelection = false
+  let validLenght = false
+  let confirmLowerCased = false
+  let confirmUpperCased = false
+  let confirmNumeric = false
+  let confirmSpecial = false
+  let passwordLenght = 0
+  do {
+    confirmLowerCased = confirm("Would you like your password to have lower cased letters?");
+    confirmUpperCased = confirm("Would you like your password to have upper cased letters?");
+    confirmSpecial = confirm("Would you like your password to have special characters?");
+    confirmNumeric = confirm("Would you like your password to have numbers?");
+    validSelection = !confirmLowerCased && !confirmUpperCased && !confirmSpecial && !confirmNumeric
+    if (validSelection) {
+      alert("You must choose at least one type of character! Try again!");
+    }
+  } while (validSelection)
 
-  if (!confirmLowerCased && !confirmUpperCased && !confirmSpecial && !confirmNumeric) {
-    alert("You must choose at least one type of character! Try again!");
-    return generatePassword();
+  do {
+    passwordLenght = parseInt(prompt("How many characters would you like your password to have? Inster a number between 10 and 64"));
+    validLenght = passwordLenght < 10 || passwordLenght > 64
+    if (validLenght) {
+      alert("You must choose a length between 10 and 64! Try again!");
+    }
+  } while (validLenght);
+
+  if (confirmSpecial === true) {
+    selectedChars = [...selectedChars, ...specialCharacters]
   }
-  if (passwordLenght < 10 || passwordLenght > 64) {
-    alert("You must choose a length between 10 and 64! Try again!");
-    return generatePassword();
+  if (confirmNumeric === true) {
+    selectedChars = [...selectedChars, ...numericCharacters]
+  }
+  if (confirmLowerCased === true) {
+    selectedChars = [...selectedChars, ...lowerCasedCharacters]
+  }
+  if (confirmUpperCased === true) {
+    selectedChars = [...selectedChars, ...upperCasedCharacters]
+  }
+
+  return {
+    selectedChars,
+    passwordLenght
   }
 }
-
-/* while (confirmLowerCased === false && confirmUpperCased === false && confirmSpecial === false && confirmNumeric === false) {
-  confirmLowerCased = confirm("Would you like your password to have lower cased letters?")
-  confirmUpperCased = confirm("Would you like your password to have upper cased letters?")
-  confirmSpecial = confirm("Would you like your password to have special characters?")
-  confirmNumeric = confirm("Would you like your password to have numbers?")
-}
-passwordLenght = prompt("How many characters would you like your password to have? Inster a number between 10 and 64")
-if (10 < passwordLenght < 64) {
-
-} else { } */
-
 
 // Function for getting a random element from an array
 function getRandomElement(arr) {
   return arr[Math.floor(Math.random() * (arr).length)];
-
 }
-/* let randomLowerCased = getRandomElement(lowerCasedCharacters)
- console.log(randomLowerCased) */
 
 
-// Function to generate password with user input
-let selectedChars = []
-function generatePassword(passwordLenght) {
-  chooseParameters()
-  if (confirmSpecial = true) {
-    selectedChars.push(specialCharacters)
-  } if (confirmNumeric = true) {
-    selectedChars.push(numericCharacters)
-  } if (confirmLowerCased = true) {
-    selectedChars.push(lowerCasedCharacters)
-  } if (confirmUpperCased = true) {
-    selectedChars.push(upperCasedCharacters)
-  }
-  for (let i = 0; i < passwordLenght; i++) {
-    password += getRandomElement(selectedChars);
+function generatePassword() {
+  let password = "";
+  let configuration = chooseParameters()
+  for (let i = 0; i < configuration.passwordLenght; i++) {
+    password += getRandomElement(configuration.selectedChars);
   }
   return password;
 }
-generatePassword()
-
-console.log(password)
-
 
 // Get references to the #generate element
 let generateBtn = document.querySelector('#generate');
@@ -169,13 +161,8 @@ function writePassword() {
   let password = generatePassword();
   let passwordText = document.querySelector('#password');
 
-  passwordText.value = password;
+  passwordText.value += "\n" + password;
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
-
-/* pseudo código: le damos al usuario a elegir qué tipo de caracteres quiere que aparezca 
-en su contraseña mediante una serie de "confirm()" Al menos una categoría tiene que ser seleccionada. 
-Una vez sabiendo qué conjunto de variables vamos a usar, tenemos que saber qué longitud hay que obtener,
-cuantos caracteres. For loop para obtener un*/
